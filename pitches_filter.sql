@@ -37,7 +37,7 @@ CREATE VIEW PITCHES_FILTER AS WITH p_no_x AS
           avg(p.sz_top) AS avg_sz_top,
           avg(p.sz_bot) AS avg_sz_bot
    FROM (pitches p
-         JOIN atbats a ON (((p.game_id = a.game_id)
+         JOIN atbats_raw a ON (((p.game_id = a.game_id)
                             AND (p.ab_num = a.ab_num))))
    GROUP BY a.batter),
             ab_avgs AS
@@ -45,7 +45,7 @@ CREATE VIEW PITCHES_FILTER AS WITH p_no_x AS
            ab.game_id,
            av.avg_sz_top,
            av.avg_sz_bot
-   FROM atbats ab
+   FROM atbats_raw ab
    JOIN avg_szs av ON ab.batter=av.batter)
 SELECT p_no_x.*,
        aba.avg_sz_top,

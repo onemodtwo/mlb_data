@@ -1,16 +1,16 @@
 DROP MATERIALIZED VIEW IF EXISTS PITCHERS CASCADE;
 CREATE MATERIALIZED VIEW PITCHERS AS WITH hits AS
-  (SELECT abs.pitcher,
+  (SELECT ATBATS.pitcher,
           count(*) AS num_hits
-   FROM ABS
-   WHERE abs.ab_result = 'hit'::text
-   GROUP BY abs.pitcher),
+   FROM ATBATS
+   WHERE ATBATS.ab_result = 'hit'::text
+   GROUP BY ATBATS.pitcher),
                          outs AS
-  (SELECT abs.pitcher,
+  (SELECT ATBATS.pitcher,
           count(*) AS num_outs
    FROM ABS
-   WHERE abs.ab_result = 'out'::text
-   GROUP BY abs.pitcher),
+   WHERE ATBATS.ab_result = 'out'::text
+   GROUP BY ATBATS.pitcher),
                          o_avg AS
   (SELECT h.pitcher,
           h.num_hits::double precision / (h.num_hits + o.num_outs)::double precision AS opp_ba,

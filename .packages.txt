@@ -1,0 +1,11 @@
+flake8
+flake8-docstrings
+ipdb
+ipython
+jupyter
+pandas
+beautifulsoup4
+sqlalchemy
+psycopg2
+lxml
+

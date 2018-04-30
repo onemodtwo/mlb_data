@@ -21,7 +21,7 @@ SELECT p.*,
        a.ab_tfs,
        a.ab_tfs_z
 FROM pitches_filter p
-JOIN ABS a ON p.game_id = a.game_id
+JOIN ATBATS a ON p.game_id = a.game_id
 AND p.ab_num = a.ab_num
 ORDER BY p.game_id,
          p.ab_num,

@@ -172,9 +172,9 @@ def dump_records(games, atbats, pitches):
                     for v in pitches.columns}
     games.to_sql('games', conn, if_exists='append', index=False,
                  dtype=game_dtypes)
-    atbats.to_sql('atbats', conn, if_exists='append', index=False,
+    atbats.to_sql('atbats_raw', conn, if_exists='append', index=False,
                   dtype=atbat_dtypes)
-    pitches.to_sql('pitches', conn, if_exists='append', index=False,
+    pitches.to_sql('pitches_raw', conn, if_exists='append', index=False,
                    dtype=pitch_dtypes)
     return
 
