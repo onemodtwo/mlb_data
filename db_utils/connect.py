@@ -22,7 +22,7 @@ def config(filename, section):
     return db
 
 
-def connect(section, filename=os.path.expanduser('~') + '/projects/database.ini'):
+def connect(section, filename=os.path.expanduser('~') + '/path/to/database.ini'):
     """Connect to the PostgreSQL database server and return cursor
 
     """
