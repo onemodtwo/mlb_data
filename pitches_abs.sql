@@ -20,7 +20,7 @@ SELECT p.*,
        a.event AS ab_event,
        a.ab_tfs,
        a.ab_tfs_z
-FROM pitches_no_ex p
+FROM pitches_filter p
 JOIN ABS a ON p.game_id = a.game_id
 AND p.ab_num = a.ab_num
 ORDER BY p.game_id,
