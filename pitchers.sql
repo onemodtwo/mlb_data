@@ -8,7 +8,7 @@ CREATE MATERIALIZED VIEW PITCHERS AS WITH hits AS
                          outs AS
   (SELECT ATBATS.pitcher,
           count(*) AS num_outs
-   FROM ABS
+   FROM ATBATS
    WHERE ATBATS.ab_result = 'out'::text
    GROUP BY ATBATS.pitcher),
                          o_avg AS

@@ -28,15 +28,15 @@ CREATE VIEW PITCHES_FILTER AS WITH p_no_x AS
                      AND (p.des ~~ '%out(s)%'::text)) THEN 'X'::text
                ELSE 'H'::text
            END AS pitch_result
-   FROM (pitches p
-         JOIN games_raw ON ((p.game_id = g.game_id)))
+   FROM (pitches_raw p
+         JOIN games_raw g ON ((p.game_id = g.game_id)))
    WHERE ((g.game_type <> 'S'::text)
           AND (g.game_type <> 'A'::text)) ),
             avg_szs AS
   (SELECT a.batter,
           avg(p.sz_top) AS avg_sz_top,
           avg(p.sz_bot) AS avg_sz_bot
-   FROM (pitches p
+   FROM (pitches_raw p
          JOIN atbats_raw a ON (((p.game_id = a.game_id)
                             AND (p.ab_num = a.ab_num))))
    GROUP BY a.batter),
