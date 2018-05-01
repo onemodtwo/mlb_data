@@ -29,9 +29,9 @@ CREATE VIEW PITCHES_FILTER AS WITH p_no_x AS
                ELSE 'H'::text
            END AS pitch_result
    FROM (pitches p
-         JOIN games ON ((p.game_id = games.game_id)))
-   WHERE ((games.game_type <> 'S'::text)
-          AND (games.game_type <> 'A'::text)) ),
+         JOIN games_raw ON ((p.game_id = g.game_id)))
+   WHERE ((g.game_type <> 'S'::text)
+          AND (g.game_type <> 'A'::text)) ),
             avg_szs AS
   (SELECT a.batter,
           avg(p.sz_top) AS avg_sz_top,

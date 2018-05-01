@@ -170,7 +170,7 @@ def dump_records(games, atbats, pitches):
                     for v in atbats.columns}
     pitch_dtypes = {v: type_dict[str(pitches.dtypes[v])]
                     for v in pitches.columns}
-    games.to_sql('games', conn, if_exists='append', index=False,
+    games.to_sql('games_raw', conn, if_exists='append', index=False,
                  dtype=game_dtypes)
     atbats.to_sql('atbats_raw', conn, if_exists='append', index=False,
                   dtype=atbat_dtypes)
