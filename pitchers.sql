@@ -15,8 +15,8 @@ WITH hits AS
 ), o_avg AS
 (
   SELECT h.pitcher,
-    h.num_hits / (h.num_hits + o.num_outs) AS opp_ba,
-    h.num_hits + o.num_outs AS plate_app
+    1.0 * h.num_hits / (h.num_hits + o.num_outs) AS opp_ba,
+    h.num_hits + o.num_outs AS at_bats
   FROM hits h JOIN outs o ON h.pitcher = o.pitcher
 ), balls AS
 (
@@ -46,7 +46,7 @@ WITH hits AS
 (
   SELECT o_avg.pitcher,
     o_avg.opp_ba,
-    o_avg.plate_app,
+    o_avg.at_bats,
     b.num_balls,
     st.num_strikes,
     b_outs.num_b_outs,
@@ -58,6 +58,7 @@ WITH hits AS
 ), p_stats AS
 (
   SELECT pitcher,
+    count(*) AS num_pitches,
     avg(start_speed) AS mean_sp,
     stddev(start_speed) AS std_sp,
     avg(pz) AS mean_y,
@@ -73,10 +74,10 @@ WITH hits AS
 )
 SELECT ps.*,
        s.opp_ba,
-       s.plate_app,
+       s.at_bats,
        s.num_balls,
        s.num_strikes,
        s.num_b_outs,
        s.num_hits
 FROM p_stats ps JOIN summary s ON ps.pitcher = s.pitcher
-ORDER BY s.opp_ba;
+ORDER BY ps.pitcher;

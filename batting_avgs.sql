@@ -14,7 +14,7 @@ WITH hits AS
   GROUP BY ATBATS.batter
 )
 SELECT h.batter,
-  h.num_hits / (h.num_hits + o.num_outs) AS batting_avg,
-  h.num_hits + o.num_outs AS plate_appearances
+  1.0 * h.num_hits / (h.num_hits + o.num_outs) AS batting_avg,
+  h.num_hits + o.num_outs AS at_bats
 FROM hits h JOIN outs o ON h.batter = o.batter
 ORDER BY (h.num_hits / (h.num_hits + o.num_outs)) DESC;
