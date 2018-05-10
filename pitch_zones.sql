@@ -31,8 +31,6 @@ SELECT game_id,
     WHEN ((px < 0.0) AND (pz <= (2.0 * sz_top + sz_bot) / 3.0)
           AND (pz > (sz_top + 2.0 * sz_bot) / 3.0))
       THEN (13)
-    WHEN ((px < 0.0) AND (pz > (2.0 * sz_top + sz_bot) / 3.0)
-          AND (pz <= sz_top) THEN (14)
     ELSE (14)
   END AS pitch_zone,
 FROM pitches_abs
