@@ -12,7 +12,6 @@ WITH rd AS
       ELSE (atbats_raw.away_team_runs - atbats_raw.home_team_runs)
     END AS run_delta,
     atbats_raw.ab_num,
-    atbats_raw.side,
     atbats_raw.game_id
   FROM atbats_raw
   ORDER BY atbats_raw.game_id, atbats_raw.ab_num
@@ -27,27 +26,25 @@ SELECT atbats_raw.ab_num,
   atbats_raw.game_id,
   atbats_raw.home_team_runs,
   CASE
-    WHEN ((rd.ab_num < lag(rd.ab_num, 1) OVER (ORDER BY rd.game_id,
-                                                        rd.ab_num))
-          OR ((rd.side <> lag(rd.side, 1) OVER (ORDER BY rd.game_id,
-                                                         rd.ab_num))
-              AND (lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id,
-                                                       rd.ab_num) = 0)))
-      THEN (0)::double precision
-    WHEN ((rd.side <> lag(rd.side, 1) OVER (ORDER BY rd.game_id,
-                                                     rd.ab_num))
-          AND (lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id,
-                                                   rd.ab_num) <> 0))
+    WHEN ((rd.ab_num < lag(rd.ab_num, 1) OVER (ORDER BY rd.game_id, rd.ab_num))
+          OR ((rd.side <> lag(rd.side, 1) OVER (ORDER BY rd.game_id, rd.ab_num))
+              AND (lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id, rd.ab_num)
+                   = 0)))
+      THEN (0)
+    WHEN ((rd.side <> lag(rd.side, 1) OVER (ORDER BY rd.game_id, rd.ab_num))
+          AND (lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id, rd.ab_num) <> 0))
       THEN (- lag(rd.run_delta, 1) OVER (ORDER BY atbats_raw.game_id,
                                                   atbats_raw.ab_num))
-    ELSE lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id,
-                                             rd.ab_num)
+    ELSE lag(rd.run_delta, 1) OVER (ORDER BY rd.game_id, rd.ab_num)
   END AS def_run_delta,
   atbats_raw.inning,
   atbats_raw.o AS ab_end_outs,
   CASE
-    WHEN (lag(atbats_raw.o, 1) OVER (ORDER BY atbats_raw.game_id,
-                                              atbats_raw.ab_num) IS NULL) THEN 0
+    WHEN ((atbats_raw.ab_num < lag(atbats_raw.ab_num, 1) OVER
+           (ORDER BY atbats_raw.game_id, atbats_raw.ab_num))
+          OR (atbats_raw.side <> lag(atbats_raw.side, 1) OVER
+              (ORDER BY rd.game_id, rd.ab_num)))
+      THEN (0)
     ELSE lag(atbats_raw.o, 1) OVER (ORDER BY atbats_raw.game_id,
                                              atbats_raw.ab_num)
   END AS ab_start_outs,
