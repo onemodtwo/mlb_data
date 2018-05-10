@@ -32,6 +32,6 @@ SELECT game_id,
           AND (pz > (sz_top + 2.0 * sz_bot) / 3.0))
       THEN (13)
     ELSE (14)
-  END AS pitch_zone,
+  END AS pitch_zone
 FROM pitches_abs
 ORDER BY game_id, ab_num, pitch_id;
