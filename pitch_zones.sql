@@ -20,7 +20,7 @@ SELECT game_id,
     WHEN ((pz < -0.75) AND (pz > ( 2.0 * sz_top +sz_bot) / 3.0)) THEN (7)
     WHEN ((px < 0.75) AND (px > -0.75) AND (pz > sz_top)) THEN (8)
     WHEN ((px >= 0.0) AND (pz > (2.0 * sz_top + sz_bot) / 3.0)
-          AND (pz <= sz_top) THEN (9)
+          AND (pz <= sz_top)) THEN (9)
     WHEN ((px >= 0.0) AND (pz <= (2.0 * sz_top + sz_bot) / 3.0)
           AND (pz > (sz_top + 2.0 * sz_bot) / 3.0))
       THEN (10)
