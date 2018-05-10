@@ -22,7 +22,9 @@ WITH hits AS
 SELECT h.batter,
   1.0 * h.num_hits / (h.num_hits + o.num_outs) AS batting_avg,
   h.num_hits + o.num_outs AS at_bats,
-  h.num_hits + o.num_outs + n.num_no_ab as plate_app
+  CASE WHEN n.num_no_ab is NULL THEN h.num_hits + o.num_outs
+    ELSE h.num_hits + o.num_outs + n.num_no_ab
+  END AS plate_app
 FROM hits h JOIN outs o ON h.batter = o.batter
-  JOIN no_ab n on h.batter = n.batter
+  LEFT JOIN no_ab n on h.batter = n.batter
 ORDER BY (h.num_hits / (h.num_hits + o.num_outs)) DESC;
